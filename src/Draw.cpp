@@ -44,8 +44,4 @@ namespace draw
         auto drawList = ImGui::GetBackgroundDrawList();
         drawList->AddCircle({ center.x, center.y }, radius, color, 0, thickness);
     }
-
-    // void Rect(const  p){
-
-    // }
 };  // namespace draw

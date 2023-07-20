@@ -60,11 +60,13 @@ void Visuals::Run()
                 auto tr = Vec2{ head.x + cw, head.y };
                 auto bl = Vec2{ feet.x - cw, feet.y };
                 auto br = Vec2{ feet.x + cw, feet.y };
+                // box, todo: 3d box
                 if (bBox)
                 {
                     draw::Rect(tl, tr, br, bl, col, 2.f);
                 }
 
+                // line
                 if (bLine)
                 {
                     auto screen = game::getScreen();
@@ -105,4 +107,5 @@ void Visuals::Menu()
     ImGui::Checkbox("Name", &bName);
     ImGui::Checkbox("Line", &bLine);
     ImGui::Checkbox("Health Bar", &bHealthBar);
+    ImGui::Checkbox("Team", &bTeam);
 }

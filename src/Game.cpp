@@ -14,15 +14,14 @@
 #include "Util.h"
 
 #pragma comment(lib, "opengl32.lib")
-// #pragma comment(lib, "glu32.lib")
 
-constexpr auto SCREEN_OFFSET = 0x345468;
-constexpr auto VIEWMATRIX_OFFSET = 0x32D040;
-constexpr auto LOCALPLAYER_OFFSET = 0x2A5730;
-constexpr auto ENTITIES_OFSSET = 0x346C90;
-constexpr auto FN_INTERSECTCLOSEST_OFFSET = 0x1DB2A0;
-constexpr auto FN_RAYCUBELOS_OFFSET = 0x1140E0;
-// constexpr auto ENTITIES_OFSSET = 0x346C80;
+constexpr auto OFFSET_SCREEN = 0x345468;
+constexpr auto OFFSET_VIEWMATRIX = 0x32D040;
+constexpr auto OFFSET_LOCALPLAYER = 0x2A5730;
+constexpr auto OFFSET_ENTITIES = 0x346C90;
+constexpr auto OFFSET_FN_INTERSECTCLOSEST = 0x1DB2A0;
+constexpr auto OFFSET_FN_RAYCUBELOS = 0x1140E0;
+
 namespace game
 {
 
@@ -32,41 +31,20 @@ namespace game
     Vector<Entity*>* entities;
     Entity* localPlayer;
 
-    // uintptr_t dwIntersectClosest;
     fn_intersectclosest intersectclosest;
     fn_raycubelos raycubelos;
     void InitVars()
     {
         baseModule = RCAST<uintptr_t>(GetModuleHandle(L"sauerbraten.exe"));
-        screen = ModuleOffset<sScreen*>(SCREEN_OFFSET);
-        viewMatrix = ModuleOffset<float*>(VIEWMATRIX_OFFSET);
-        uintptr_t* entList = ModuleOffset<uintptr_t*>(ENTITIES_OFSSET);
+        screen = ModuleOffset<sScreen*>(OFFSET_SCREEN);
+        viewMatrix = ModuleOffset<float*>(OFFSET_VIEWMATRIX);
+        uintptr_t* entList = ModuleOffset<uintptr_t*>(OFFSET_ENTITIES);
         entities = RCAST<Vector<Entity*>*>(entList);
-        localPlayer = ModuleOffset<Entity*>(LOCALPLAYER_OFFSET, true);
-        // dwIntersectClosest = ModuleOffset(FN_INTERSECTCLOSEST_OFFSET);
-        intersectclosest = RCAST<fn_intersectclosest>(ModuleOffset(FN_INTERSECTCLOSEST_OFFSET));
-        raycubelos = RCAST<fn_raycubelos>(ModuleOffset(FN_RAYCUBELOS_OFFSET));
+        localPlayer = ModuleOffset<Entity*>(OFFSET_LOCALPLAYER, true);
+        intersectclosest = RCAST<fn_intersectclosest>(ModuleOffset(OFFSET_FN_INTERSECTCLOSEST));
+        raycubelos = RCAST<fn_raycubelos>(ModuleOffset(OFFSET_FN_RAYCUBELOS));
     }
 
-    // Entity* intersectclosest(const Vec3& from, const Vec3& to, Entity* at, float& bestdist)
-    // {
-    //     static auto intersectclosest =
-    //         RCAST<Entity*(__fastcall*)(const Vec3& from, const Vec3& to, Entity* at, float& bestdist)>(
-    //             dwIntersectClosest);
-    //     return intersectclosest(from, to, at, bestdist);
-    //     // Entity* result{};
-    //     // asm volatile("lea %[bestDist], %%r9;"
-    //     //              "mov %[at], %%r8;"
-    //     //              "lea %[to], %%rdx;"
-    //     //              "lea %[from], %%rcx;"
-    //     //              "movq %[fn],%%rax;"
-    //     //              "callq *%%rax;"
-    //     //              "movq %%rax,%[res]"
-    //     //              : [bestDist] "=g"(bestdist), [res] "=r"(result)
-    //     //              : [at] "g"(at), [to] "g"(to), [from] "g"(from), [fn] "g"(dwIntersectClosest)
-    //     //              : "rax", "rcx", "rdx", "r8", "r9");
-    //     // return result;
-    // }
     uintptr_t ModuleOffset(uintptr_t offset, bool read)
     {
         uintptr_t result = baseModule + offset;
@@ -118,19 +96,6 @@ namespace game
         ogl.oCTX = wglGetCurrentContext();
         ogl.CTX = wglCreateContext(hDc);
 
-        // ogl.SwitchContext(OGLCTX::CREATED);
-        // glMatrixMode(GL_PROJECTION);
-        // glLoadIdentity();
-
-        // GLint viewport[4];
-        // glGetIntegerv(GL_VIEWPORT, viewport);
-
-        // glOrtho(0, viewport[2], viewport[3], 0, 1, -1);
-        // glMatrixMode(GL_MODELVIEW);
-        // glLoadIdentity();
-        // glClearColor(0, 0, 0, 1);
-        // ogl.SwitchContext(OGLCTX::ORIGINAL);
-
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGui_ImplOpenGL2_Init();
@@ -163,10 +128,6 @@ namespace game
             if (func)
                 func(ent);
 
-            // if (visible && !ent->isVisible())
-            //     continue;
-            // if (noSameTeam && ent->sameTeam())
-            //     continue;
             float dist = localPlayer->pos.dist(ent->pos);
             if (dist < minDistance)
             {

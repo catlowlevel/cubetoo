@@ -10,7 +10,7 @@ namespace util
         while (*str != '\0')
         {
             hash ^= static_cast<uint32_t>(*str++);
-            hash *= 0x01000193;
+            hash *= HASH_VALUE;
         }
         return hash;
     }

@@ -10,9 +10,13 @@
 #include "Game.h"
 #include "Hooks.h"
 #include "Ui.h"
-#include "Util.h"
 
 using namespace std;
+
+using fn_wglSwapBuffers = BOOL(WINAPI *)(HDC);
+using fn_wndproc = WNDPROC;
+fn_wglSwapBuffers oSwapBuffers;
+fn_wndproc oWinProc;
 
 void Funcs::Init()
 {
@@ -21,10 +25,9 @@ void Funcs::Init()
     ADD_CHEAT(Visuals);
     ADD_CHEAT(Aim);
 
-    // static void *SetRelMouseMove = (void *)GetProcAddress(GetModuleHandle(L"SDL2.dll"), "SDL_"
-    //                                                                                     "SetRelativeMouseMode");
-    // HM_CE(SetRelMouseMove, relMouse);
-    cout << "intersectclosest -> " << hex << (void *)game::intersectclosest << endl;
+    oSwapBuffers = hookManager->GetHooker(SWAPBUFFERS_HASH)->GetOriginal<fn_wglSwapBuffers>();
+    oWinProc = hookManager->GetHooker(WINDOWPROC_HASH)->GetOriginal<fn_wndproc>();
+
     cout << "Functions Initialized!" << endl;
 }
 
@@ -46,8 +49,6 @@ LRESULT CALLBACK hk_WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 case VK_END:
                     extern bool exiting;
                     exiting = true;
-
-                    // FreeLibrary(ac->win.mod);
                     return true;
             }
             break;
@@ -71,38 +72,7 @@ LRESULT CALLBACK hk_WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             break;
     }
 
-    static auto oWinProc = hookManager->GetHooker(WINDOWPROC_HASH)->GetOriginal<WNDPROC>();
     return CallWindowProc(oWinProc, hWnd, message, wParam, lParam);
-}
-
-void ui::Update()
-{
-    if (game::entities->size > 0)
-        for (auto &[name, cheat] : menu::funcs)
-            cheat->Run();
-}
-
-void ui::menu::Draw()
-{
-    ToggleMouse(false);
-    ImGui::SetNextWindowSize({ 300, 300 }, ImGuiCond_FirstUseEver);
-    ImGui::Begin("TOOCUBE");
-
-    if (ImGui::BeginTabBar("Cheats"))
-    {
-        for (auto &[name, cheat] : menu::funcs)
-        {
-            if (ImGui::BeginTabItem(name))
-            {
-                cheat->Menu();
-                ImGui::EndTabItem();
-            }
-        }
-        ImGui::Separator();
-        ImGui::EndTabBar();
-    }
-
-    ImGui::End();
 }
 
 BOOL WINAPI hk_SwapBuffers(HDC hDc)
@@ -114,7 +84,5 @@ BOOL WINAPI hk_SwapBuffers(HDC hDc)
         ui::menu::Draw();
     ui::End();
 
-    // //using wglSwapBuffers = BOOL(WINAPI*)(HDC);
-    static auto oSwapBuffers = hookManager->GetHooker(SWAPBUFFERS_HASH)->GetOriginal<BOOL(WINAPI *)(HDC)>();
     return oSwapBuffers(hDc);
 }

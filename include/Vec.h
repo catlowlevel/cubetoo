@@ -35,15 +35,15 @@ struct Vec3
         return Vec3(x / scalar, y / scalar, z / scalar);
     }
 
-    bool operator==(const Vec3& other) const noexcept
-    {
-        return x == other.x && y == other.y && z == other.z;
-    }
+    // bool operator==(const Vec3& other) const noexcept
+    // {
+    //     return x == other.x && y == other.y && z == other.z;
+    // }
 
-    bool operator!=(const Vec3& other) const noexcept
-    {
-        return !(x == other.x && y == other.y && z == other.z);
-    }
+    // bool operator!=(const Vec3& other) const noexcept
+    // {
+    //     return !(x == other.x && y == other.y && z == other.z);
+    // }
 
     float length() const noexcept
     {

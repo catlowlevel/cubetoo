@@ -11,6 +11,35 @@
 
 namespace ui
 {
+    void Update()
+    {
+        if (game::entities->size > 0)
+            for (auto &[name, cheat] : menu::funcs)
+                cheat->Run();
+    }
+
+    void menu::Draw()
+    {
+        ToggleMouse(false);
+        ImGui::SetNextWindowSize({ 300, 300 }, ImGuiCond_FirstUseEver);
+        ImGui::Begin("TOOCUBE");
+
+        if (ImGui::BeginTabBar("Cheats"))
+        {
+            for (auto &[name, cheat] : menu::funcs)
+            {
+                if (ImGui::BeginTabItem(name))
+                {
+                    cheat->Menu();
+                    ImGui::EndTabItem();
+                }
+            }
+            ImGui::Separator();
+            ImGui::EndTabBar();
+        }
+
+        ImGui::End();
+    }
     void Begin()
     {
         game::ogl.SwitchContext(OGLCTX::CREATED);
@@ -46,7 +75,7 @@ namespace ui
     }
     void menu::Init()
     {
-        ImGuiIO& io = ImGui::GetIO();
+        ImGuiIO &io = ImGui::GetIO();
 
         io.Fonts->Clear();
         io.Fonts->AddFontFromFileTTF("C:\\Windows\\fonts\\Hack Regular Nerd Font Complete Windows Compatible.ttf", 15);
@@ -54,7 +83,7 @@ namespace ui
         io.Fonts->Build();
 
         // https://github.com/ocornut/imgui/issues/707#issuecomment-1494706165
-        ImGuiStyle& style = ImGui::GetStyle();
+        ImGuiStyle &style = ImGui::GetStyle();
         style.WindowRounding = 0.f;
         style.FrameRounding = 0.f;
         style.ScrollbarRounding = 0;

@@ -78,7 +78,7 @@ HookManager::~HookManager()
 
 Hooker *HookManager::CreateAndEnable(const char *name, void *fnTarget, void *fnDetour)
 {
-    auto hashed = util::CT_Hash(name);
+    auto hashed = util::Hash(name);
     hooks_.emplace(hashed, Hooker(name, fnTarget, fnDetour));
     auto &hook = hooks_.at(hashed);
     if (!hook.Create())

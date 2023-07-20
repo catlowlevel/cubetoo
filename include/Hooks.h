@@ -5,7 +5,6 @@
 
 #include "Util.h"
 
-
 class Hooker
 {
   public:
@@ -40,7 +39,6 @@ class HookManager
     HookManager();
     ~HookManager();
 
-    // Create Hook And Enable, Enable if already exists
     Hooker *CreateAndEnable(const char *name, void *fnTarget, void *fnDetour);
 
     // hashed = util::Hash(name)
