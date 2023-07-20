@@ -178,7 +178,7 @@ namespace game
     }
     bool isEnemy(Entity* ent)
     {
-        return strcmp(ent->team, game::localPlayer->team) == 0;
+        return strcmp(ent->team, game::localPlayer->team) != 0;
     }
 
     Vec3 calcAngle(Vec3 v)
