@@ -31,7 +31,7 @@ void Visuals::Run()
                 continue;
 
             bool sameTeam = !game::isEnemy(ent);
-            if (bTeam && sameTeam)
+            if (!bTeam && sameTeam)
                 continue;
 
             auto col = sameTeam ? color::GREEN : color::RED;

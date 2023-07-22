@@ -139,6 +139,7 @@ namespace game
     }
     bool isEnemy(Entity* ent)
     {
+        //TODO: check if team gamemode
         return strcmp(ent->team, game::localPlayer->team) != 0;
     }
 
