@@ -47,8 +47,10 @@ enum FLAG : int32_t
     SKIP_NOT_VISIBLE = 0x00000010
 };
 
-using fn_intersectclosest = Entity*(__fastcall*)(const Vec3& from, const Vec3& to, Entity* at, float& bestdist);
+using fn_intersectclosest = Entity*(__fastcall*)(const Vec3& from, const Vec3& to, Entity* at, float& bestdist,
+                                                 double fromc, double arg8, double _A0, float a8);
 using fn_raycubelos = bool(__fastcall*)(const Vec3& o, const Vec3& dest, Vec3& hitpos);
+using fn_intersect = bool(__fastcall*)(Entity* ent, const Vec3& from, const Vec3& to, float& dist);
 
 namespace game
 {
@@ -56,6 +58,7 @@ namespace game
     extern Entity* localPlayer;
     extern Vector<Entity*>* entities;
     extern fn_intersectclosest intersectclosest;
+    extern fn_intersect intersect;
     extern fn_raycubelos raycubelos;
 
     void InitVars();

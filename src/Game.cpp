@@ -21,6 +21,7 @@ constexpr auto OFFSET_LOCALPLAYER = 0x2A5730;
 constexpr auto OFFSET_ENTITIES = 0x346C90;
 constexpr auto OFFSET_FN_INTERSECTCLOSEST = 0x1DB2A0;
 constexpr auto OFFSET_FN_RAYCUBELOS = 0x1140E0;
+constexpr auto OFFSET_FN_INTERSECT = 0x1DADB0;
 
 namespace game
 {
@@ -32,6 +33,7 @@ namespace game
     Entity* localPlayer;
 
     fn_intersectclosest intersectclosest;
+    fn_intersect intersect;
     fn_raycubelos raycubelos;
     void InitVars()
     {
@@ -42,6 +44,7 @@ namespace game
         entities = RCAST<Vector<Entity*>*>(entList);
         localPlayer = ModuleOffset<Entity*>(OFFSET_LOCALPLAYER, true);
         intersectclosest = RCAST<fn_intersectclosest>(ModuleOffset(OFFSET_FN_INTERSECTCLOSEST));
+        intersect = RCAST<fn_intersect>(ModuleOffset(OFFSET_FN_INTERSECT));
         raycubelos = RCAST<fn_raycubelos>(ModuleOffset(OFFSET_FN_RAYCUBELOS));
     }
 
@@ -139,7 +142,7 @@ namespace game
     }
     bool isEnemy(Entity* ent)
     {
-        //TODO: check if team gamemode
+        // TODO: check if team gamemode
         return strcmp(ent->team, game::localPlayer->team) != 0;
     }
 
