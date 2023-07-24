@@ -58,7 +58,8 @@ class HookManager
 
 extern HookManager *hookManager;
 
-#define HM_CE(fnTarget, fnDetour) hookManager->CreateAndEnable(#fnTarget, fnTarget, RCAST<void *>(fnDetour))
+#define HM_CE(fnTarget, fnDetour)                                                                                      \
+    hookManager->CreateAndEnable(#fnTarget, RCAST<void *>(fnTarget), RCAST<void *>(fnDetour))
 #define HM_DR(fnTarget) hookManager->DisableAndRemove(#fnTarget)
 
 constexpr auto SWAPBUFFERS_HASH = util::CT_Hash("swapBuffers");
