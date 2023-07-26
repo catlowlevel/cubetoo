@@ -10,6 +10,7 @@ class Visuals : public Cheat
   private:
     // show team
     bool bBox = true;
+    bool bAngle = true;
     bool bName = false;
     bool bLine = false;
     bool bHealthBar = false;
