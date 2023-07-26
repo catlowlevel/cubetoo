@@ -1,36 +1,36 @@
 #pragma once
 #include "Vec.h"
 
-class Entity
-{
-  public:
-    Vec3 getHeadPos()
-    {
-        return pos;
-    }
-    Vec3 getPos()
-    {
-        return { pos.x, pos.y, pos.z - 14.f };
-    }
+// class Entity
+// {
+//   public:
+//     Vec3 getHeadPos()
+//     {
+//         return o;
+//     }
+//     Vec3 getPos()
+//     {
+//         return { o.x, o.y, o.z - 14.f };
+//     }
 
-  public:
-    Vec3 pos;            // 0x0000
-    Vec3 vel;            // 0x000C
-    char pad_0018[24];   // 0x0018
-    Vec3 pos2;           // 0x0030
-    Vec3 angle;          // 0x003C
-    char pad_0048[304];  // 0x0048
-    int32_t health;      // 0x0178
-    int32_t maxHealth;   // 0x017C
-    int32_t armor;       // 0x0180
-    char pad_0184[8];    // 0x0184
-    int32_t weaponSlot;  // 0x018C
-    int32_t shotDelay;   // 0x0190
-    char pad_0194[224];  // 0x0194
-    char name[260];      // 0x0274
-    char team[260];      // 0x0378
-    char pad_047C[116];  // 0x047C
-};
+//   public:
+//     Vec3 o;            // 0x0000
+//     Vec3 vel;            // 0x000C
+//     char pad_0018[24];   // 0x0018
+//     Vec3 pos2;           // 0x0030
+//     Vec3 angle;          // 0x003C
+//     char pad_0048[304];  // 0x0048
+//     int32_t health;      // 0x0178
+//     int32_t maxHealth;   // 0x017C
+//     int32_t armor;       // 0x0180
+//     char pad_0184[8];    // 0x0184
+//     int32_t weaponSlot;  // 0x018C
+//     int32_t shotDelay;   // 0x0190
+//     char pad_0194[224];  // 0x0194
+//     char name[260];      // 0x0274
+//     char team[260];      // 0x0378
+//     char pad_047C[116];  // 0x047C
+// };
 
 template <typename T>
 struct Vector
@@ -67,9 +67,10 @@ struct physent
     Vec3 falling;
     Vec3 deltapos;
     Vec3 newpos;
-    float yaw;
-    float pitch;
-    float roll;
+    // float yaw;
+    // float pitch;
+    // float roll;
+    Vec3 angle;
     float maxspeed;
     float radius;
     float eyeheight;
@@ -192,3 +193,5 @@ struct fpsent : dynent, fpsstate
     int lastnode;
     Vec3 muzzle;
 };
+
+using Entity = fpsent;

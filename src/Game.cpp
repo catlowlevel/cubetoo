@@ -58,7 +58,7 @@ namespace game
     bool isVisible(Entity* ent)
     {
         Vec3 out;
-        return raycubelos(localPlayer->pos, ent->pos, out);
+        return raycubelos(localPlayer->o, ent->o, out);
     }
 
     bool W2S(Vec3 worldPosition, Vec2& screenPosition)
@@ -131,7 +131,7 @@ namespace game
             if (func)
                 func(ent);
 
-            float dist = localPlayer->pos.dist(ent->pos);
+            float dist = localPlayer->o.dist(ent->o);
             if (dist < minDistance)
             {
                 minDistance = dist;
