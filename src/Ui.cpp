@@ -13,7 +13,7 @@ namespace ui
 {
     void Update()
     {
-        if (game::entities->size > 0)
+        if (game::entities && game::entities->size > 0)
             for (auto &[name, cheat] : menu::funcs)
                 cheat->Run();
     }
