@@ -1,6 +1,7 @@
 #include "Util.h"
 
 #include <Windows.h>
+#include <spdlog/spdlog.h>
 
 namespace util
 {
@@ -31,7 +32,9 @@ namespace util
         Console::initialized = true;
         AllocConsole();
         freopen_s(&file, "CONOUT$", "w", stdout);
-        printf("Console initialized\n");
+
+        spdlog::set_pattern("[%H:%M:%S.%e] [%^%l%$] %v");
+        spdlog::info("Console initialized!");
     }
     Console::~Console()
     {

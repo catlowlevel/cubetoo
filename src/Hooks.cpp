@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "Functions.h"
+#include "Logger.h"
 #include "Memory.h"
 #include "Util.h"
 
@@ -123,11 +124,12 @@ void HookManager::HookSwapBuffers()
     auto opengl32 = GetModuleHandle(L"opengl32.dll");
     if (!opengl32)
     {
-        cout << "Can't get handle to opengl32.dll\n";
+        SPDLOG_ERROR("Can't get handle to opengl32.dll");
         return;
     }
     LPVOID swapBuffers = RCAST<LPVOID>(GetProcAddress(opengl32, "wglSwapBuffers"));
-    cout << "wglSwapBuffers 0x" << hex << swapBuffers << endl;
+    SPDLOG_INFO("wglSwapBuffers 0x{:X}", (uintptr_t)swapBuffers);
+
     assert(SWAPBUFFERS_HASH == util::CT_Hash("swapBuffers"));
     HM_CE(swapBuffers, hk_SwapBuffers);
 }

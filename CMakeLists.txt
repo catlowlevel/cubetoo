@@ -8,13 +8,16 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall")
 add_definitions(-DUNICODE -D_UNICODE)
 
 include_directories(include)
+include_directories(include/spdlog/include)
 # Add external libraries
 add_subdirectory(include/minhook)
 add_subdirectory(include/imgui)
+add_subdirectory(include/spdlog)
 
 # Disable warnings for external libraries
 target_compile_options(minhook PRIVATE -w)
 target_compile_options(imgui PRIVATE -w)
+target_compile_options(spdlog PRIVATE -w)
 
 add_library(cubetoo SHARED
                     src/DllMain.cpp
@@ -30,4 +33,4 @@ add_library(cubetoo SHARED
                     "include/Cheat/Aim.cpp"
 )
 
-target_link_libraries(cubetoo PRIVATE minhook imgui)
+target_link_libraries(cubetoo PRIVATE minhook imgui spdlog)

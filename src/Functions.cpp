@@ -9,6 +9,7 @@
 #include "Cheat/Visuals.h"
 #include "Game.h"
 #include "Hooks.h"
+#include "Logger.h"
 #include "Ui.h"
 
 using namespace std;
@@ -28,7 +29,7 @@ void Funcs::Init()
     oSwapBuffers = hookManager->GetHooker(SWAPBUFFERS_HASH)->GetOriginal<fn_wglSwapBuffers>();
     oWinProc = hookManager->GetHooker(WINDOWPROC_HASH)->GetOriginal<fn_wndproc>();
 
-    cout << "Functions Initialized!" << endl;
+    spdlog::info("Functions Initialized!");
 }
 
 LRESULT CALLBACK hk_WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
